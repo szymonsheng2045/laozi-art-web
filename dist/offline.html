@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>离线 - LAOZI.ART</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #fafafa;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      letter-spacing: 0.2em;
+      margin-bottom: 3rem;
+      opacity: 0.6;
+    }
+    
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 2rem;
+      opacity: 0.3;
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      letter-spacing: 0.1em;
+    }
+    
+    p {
+      font-size: 0.9rem;
+      opacity: 0.6;
+      line-height: 1.8;
+      max-width: 400px;
+      margin-bottom: 2rem;
+    }
+    
+    .btn {
+      padding: 0.75rem 2rem;
+      border: 1px solid #1a1a1a;
+      background: transparent;
+      color: #1a1a1a;
+      font-size: 0.875rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .btn:hover {
+      background: #1a1a1a;
+      color: #fafafa;
+    }
+    
+    .cached-articles {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e5e5e5;
+      max-width: 500px;
+      width: 100%;
+    }
+    
+    .cached-articles h2 {
+      font-size: 0.875rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+    
+    .article-list {
+      list-style: none;
+    }
+    
+    .article-list li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    
+    .article-list a {
+      color: #1a1a1a;
+      text-decoration: none;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+    
+    .article-list a:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">LAOZI.ART</div>
+  
+  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+  </svg>
+  
+  <h1>暂时离线</h1>
+  <p>
+    您当前处于离线状态，但已缓存的文章仍可阅读。<br>
+    连接网络后将自动同步最新内容。
+  </p>
+  
+  <button class="btn" onclick="window.location.reload()">
+    刷新重试
+  </button>
+  
+  <div class="cached-articles">
+    <h2>已缓存的文章</h2>
+    <ul class="article-list" id="cachedList">
+      <li>加载中...</li>
+    </ul>
+  </div>
+  
+  <script>
+    // 显示已缓存的文章列表
+    if ('caches' in window) {
+      caches.open('laozi-art-v1').then(cache => {
+        cache.keys().then(keys => {
+          const list = document.getElementById('cachedList');
+          const articles = keys
+            .filter(req => req.url.includes('/observation/'))
+            .map(req => {
+              const slug = req.url.split('/').pop();
+              return slug;
+            });
+          
+          if (articles.length > 0) {
+            list.innerHTML = articles.map(slug => 
+              `<li><a href="/observation/${slug}">${slug.replace(/-/g, ' ')}</a></li>`
+            ).join('');
+          } else {
+            list.innerHTML = '<li style="opacity:0.5">暂无缓存文章</li>';
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>
