@@ -9,6 +9,7 @@ const navItems = [
   { label: "Insight", href: "/insight" },
   { label: "Essence", href: "/essence" },
   { label: "Void", href: "/void" },
+  { label: "Jewelry", href: "/jewelry" },
 ];
 
 export default function Navigation() {
