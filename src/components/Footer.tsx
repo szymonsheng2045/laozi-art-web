@@ -1,27 +1,32 @@
-import Link from "next/link";
+"use client";
 
-const footerLinks = {
-  explore: [
-    { label: "Observation", href: "/observation" },
-    { label: "Insight", href: "/insight" },
-    { label: "Essence", href: "/essence" },
-    { label: "Void", href: "/void" },
-  ],
-  connect: [
-    { label: "Instagram", href: "https://instagram.com/laozi.art" },
-    { label: "Pinterest", href: "https://pinterest.com/laoziart" },
-    { label: "Newsletter", href: "/newsletter" },
-  ],
-  info: [
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
-    { label: "Admin", href: "/admin" },
-  ],
-};
+import Link from "next/link";
+import { useLanguage } from "./language-provider";
 
 export default function Footer() {
+  const { t, locale } = useLanguage();
+
+  const footerLinks = {
+    explore: [
+      { label: t('nav.observation'), href: "/observation" },
+      { label: t('nav.insight'), href: "/insight" },
+      { label: t('nav.essence'), href: "/essence" },
+      { label: t('nav.void'), href: "/void" },
+    ],
+    connect: [
+      { label: "Instagram", href: "https://instagram.com/laozi.art" },
+      { label: "Pinterest", href: "https://pinterest.com/laoziart" },
+      { label: t('footer.newsletter'), href: "/newsletter" },
+    ],
+    info: [
+      { label: t('footer.about'), href: "/about" },
+      { label: t('footer.contact'), href: "/contact" },
+      { label: "Admin", href: "/admin" },
+    ],
+  };
+
   return (
-    <footer className="border-t border-[#e5e5e5] mt-32">
+    <footer className="border-t border-[#e5e5e5] dark:border-zinc-800 mt-32">
       <div className="section-padding max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
           {/* Brand */}
@@ -30,14 +35,13 @@ export default function Footer() {
               LAOZI<span className="text-[#8a8a8a]">.</span>ART
             </Link>
             <p className="text-sm text-[#8a8a8a] leading-relaxed max-w-xs">
-              The essence beyond trend. 
-              Observing fashion through the lens of Daoist philosophy.
+              {t('footer.slogan')}
             </p>
           </div>
 
           {/* Links */}
           <div>
-            <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-[#8a8a8a]">Explore</h4>
+            <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-[#8a8a8a]">{t('footer.explore')}</h4>
             <ul className="space-y-3">
               {footerLinks.explore.map((link) => (
                 <li key={link.label}>
@@ -50,7 +54,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-[#8a8a8a]">Connect</h4>
+            <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-[#8a8a8a]">{t('footer.connect')}</h4>
             <ul className="space-y-3">
               {footerLinks.connect.map((link) => (
                 <li key={link.label}>
@@ -63,7 +67,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-[#8a8a8a]">Info</h4>
+            <h4 className="text-xs tracking-[0.2em] uppercase mb-6 text-[#8a8a8a]">{t('footer.info')}</h4>
             <ul className="space-y-3">
               {footerLinks.info.map((link) => (
                 <li key={link.label}>
@@ -77,12 +81,12 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-20 pt-8 border-t border-[#e5e5e5] flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="mt-20 pt-8 border-t border-[#e5e5e5] dark:border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-[#8a8a8a]">
-            © 2026 LAOZI.ART. All rights reserved.
+            {t('footer.copyright')}
           </p>
           <p className="text-xs text-[#8a8a8a] tracking-widest">
-            道法自然
+            {locale === 'zh' ? '道法自然' : 'Wu Wei'}
           </p>
         </div>
       </div>

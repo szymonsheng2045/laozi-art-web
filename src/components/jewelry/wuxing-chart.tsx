@@ -1,6 +1,8 @@
 "use client";
 
-import { Wuxing, wuxingNames } from "@/lib/bazi";
+import { Wuxing } from "@/lib/bazi";
+import { wuxingNames } from "@/lib/jewelry";
+import { useLanguage } from "../language-provider";
 
 interface WuxingChartProps {
   wuxing: Record<Wuxing, number>;
@@ -8,13 +10,14 @@ interface WuxingChartProps {
 
 export function WuxingChart({ wuxing }: WuxingChartProps) {
   const wuxingOrder: Wuxing[] = ['metal', 'wood', 'water', 'fire', 'earth'];
+  const { t } = useLanguage();
   
   // 找出最大值用于归一化
   const maxValue = Math.max(...Object.values(wuxing));
   
   return (
     <div className="p-4 bg-zinc-50 dark:bg-zinc-800 rounded-lg">
-      <p className="text-sm text-zinc-500 mb-4">五行能量分布</p>
+      <p className="text-sm text-zinc-500 mb-4">{t('jewelry.bazi.wuxingDist')}</p>
       <div className="space-y-3">
         {wuxingOrder.map(w => {
           const percentage = wuxing[w];
@@ -55,8 +58,8 @@ export function WuxingChart({ wuxing }: WuxingChartProps) {
       
       {/* 图例说明 */}
       <div className="mt-4 pt-3 border-t border-zinc-200 dark:border-zinc-700 text-xs text-zinc-500 flex gap-4">
-        <span>↓ 偏低（{'<'}15%）建议补足</span>
-        <span>↑ 偏旺（{'>'}30%）可能过强</span>
+        <span>{t('jewelry.bazi.low')}</span>
+        <span>{t('jewelry.bazi.high')}</span>
       </div>
     </div>
   );

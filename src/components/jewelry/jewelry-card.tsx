@@ -1,6 +1,7 @@
 "use client";
 
 import { Jewelry, wuxingNames } from "@/lib/jewelry";
+import { useLanguage } from "../language-provider";
 import Link from "next/link";
 
 interface JewelryCardProps {
@@ -9,13 +10,15 @@ interface JewelryCardProps {
 }
 
 export function JewelryCard({ jewelry, showWuxing = true }: JewelryCardProps) {
+  const { locale, t } = useLanguage();
+  
   const categoryNames: Record<string, string> = {
-    ring: '戒指',
-    necklace: '项链',
-    earring: '耳环',
-    bracelet: '手镯',
-    brooch: '胸针',
-    pendant: '吊坠'
+    ring: t('categories.ring'),
+    necklace: t('categories.necklace'),
+    earring: t('categories.earring'),
+    bracelet: t('categories.bracelet'),
+    brooch: t('categories.brooch'),
+    pendant: t('categories.pendant')
   };
 
   return (
@@ -78,7 +81,7 @@ export function JewelryCard({ jewelry, showWuxing = true }: JewelryCardProps) {
           <div>
             <p className="text-xs text-zinc-500 mb-1">{categoryNames[jewelry.category]}</p>
             <h3 className="font-medium group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
-              {jewelry.nameCn || jewelry.name}
+              {locale === 'zh' ? jewelry.nameCn : jewelry.name}
             </h3>
           </div>
         </div>

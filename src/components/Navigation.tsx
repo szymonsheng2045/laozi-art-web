@@ -3,17 +3,20 @@
 import { useState } from "react";
 import Link from "next/link";
 import { LoginButton } from "./auth/login-button";
-
-const navItems = [
-  { label: "Observation", href: "/observation" },
-  { label: "Insight", href: "/insight" },
-  { label: "Essence", href: "/essence" },
-  { label: "Void", href: "/void" },
-  { label: "Jewelry", href: "/jewelry" },
-];
+import { LanguageSwitcher } from "./language-switcher";
+import { useLanguage } from "./language-provider";
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
+
+  const navItems = [
+    { label: t('nav.observation'), href: "/observation" },
+    { label: t('nav.insight'), href: "/insight" },
+    { label: t('nav.essence'), href: "/essence" },
+    { label: t('nav.void'), href: "/void" },
+    { label: t('nav.jewelry'), href: "/jewelry" },
+  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#fafafa]/90 backdrop-blur-sm">
@@ -29,12 +32,13 @@ export default function Navigation() {
             <Link
               key={item.label}
               href={item.href}
-              className="nav-link text-sm tracking-widest uppercase text-[#8a8a8a] hover:text-[#1a1a1a]"
+              className="nav-link text-sm tracking-widest uppercase text-[#8a8a8a] hover:text-[#1a1a1a] dark:hover:text-white transition-colors"
             >
               {item.label}
             </Link>
           ))}
-          <div className="pl-4 border-l border-[#e5e5e5]">
+          <div className="pl-4 border-l border-[#e5e5e5] dark:border-zinc-700 flex items-center gap-4">
+            <LanguageSwitcher />
             <LoginButton />
           </div>
         </div>
@@ -55,19 +59,20 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-[#fafafa] border-t border-[#e5e5e5] py-8">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-[#fafafa] dark:bg-zinc-900 border-t border-[#e5e5e5] dark:border-zinc-700 py-8">
           <div className="flex flex-col items-center space-y-6">
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className="text-sm tracking-widest uppercase text-[#8a8a8a] hover:text-[#1a1a1a]"
+                className="text-sm tracking-widest uppercase text-[#8a8a8a] hover:text-[#1a1a1a] dark:hover:text-white"
               >
                 {item.label}
               </Link>
             ))}
-            <div className="pt-4 border-t border-[#e5e5e5]">
+            <div className="pt-4 border-t border-[#e5e5e5] dark:border-zinc-700 flex flex-col items-center gap-4">
+              <LanguageSwitcher />
               <LoginButton />
             </div>
           </div>

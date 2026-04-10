@@ -1,21 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { Wuxing, calculateBazi, wuxingNames } from "@/lib/bazi";
+import { Wuxing, calculateBazi, wuxingNames as baziWuxingNames } from "@/lib/bazi";
 import { 
   jewelryDatabase, 
   getJewelryByWuxing, 
   getRecommendations,
-  jewelryArticles 
+  jewelryArticles,
+  wuxingNames
 } from "@/lib/jewelry";
 import { JewelryCard } from "@/components/jewelry/jewelry-card";
 import { WuxingChart } from "@/components/jewelry/wuxing-chart";
 import { BaziForm } from "@/components/jewelry/bazi-form";
+import { useLanguage } from "@/components/language-provider";
 import Link from "next/link";
 
 export default function JewelryPage() {
   const [showCalculator, setShowCalculator] = useState(false);
   const [baziResult, setBaziResult] = useState<ReturnType<typeof calculateBazi> | null>(null);
+  const { t, locale } = useLanguage();
 
   const handleBaziSubmit = (year: number, month: number, day: number, hour: number) => {
     const result = calculateBazi(year, month, day, hour);
@@ -24,20 +27,24 @@ export default function JewelryPage() {
 
   const wuxingOrder: Wuxing[] = ['metal', 'wood', 'water', 'fire', 'earth'];
 
+  // 获取珠宝数量
+  const getJewelryCount = (wuxing: Wuxing) => {
+    return jewelryDatabase.filter(j => j.primaryWuxing === wuxing).length;
+  };
+
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
       {/* Hero Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-zinc-100 to-zinc-50 dark:from-zinc-900 dark:to-zinc-950">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl font-serif font-light tracking-tight text-zinc-900 dark:text-zinc-100 mb-6">
-            五行珠宝
+            {t('jewelry.title')}
           </h1>
           <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-4 font-serif italic">
-            The Dao of Adornment
+            {t('jewelry.subtitle')}
           </p>
           <p className="text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            以道家五行哲学为指引，找到与你能量共振的珠宝。
-            不只是佩戴，更是调和。
+            {t('jewelry.description')}
           </p>
           
           {/* CTA Buttons */}
@@ -46,13 +53,13 @@ export default function JewelryPage() {
               onClick={() => setShowCalculator(true)}
               className="px-8 py-3 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-full hover:bg-zinc-700 dark:hover:bg-zinc-300 transition-colors"
             >
-              八字测珠宝
+              {t('jewelry.baziButton')}
             </button>
             <Link
               href="#collection"
-              className="px-8 py-3 border border-zinc-300 dark:border-zinc-700 rounded-full hover:border-zinc-900 dark:hover:border-zinc-100 transition-colors"
+              className="px-8 py-3 border border-zinc-300 dark:border-zinc-700 rounded-full hover:border-zinc-900 dark:hover:border-zinc-100 transition-colors text-center"
             >
-              浏览图鉴
+              {t('jewelry.browseButton')}
             </Link>
           </div>
         </div>
@@ -63,10 +70,10 @@ export default function JewelryPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-zinc-900 rounded-2xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-serif">八字五行分析</h2>
+              <h2 className="text-xl font-serif">{t('jewelry.bazi.title')}</h2>
               <button
                 onClick={() => setShowCalculator(false)}
-                className="text-zinc-400 hover:text-zinc-600"
+                className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
               >
                 ✕
               </button>
@@ -78,12 +85,12 @@ export default function JewelryPage() {
               <div className="space-y-6">
                 {/* 八字显示 */}
                 <div className="text-center p-4 bg-zinc-50 dark:bg-zinc-800 rounded-lg">
-                  <p className="text-sm text-zinc-500 mb-2">您的八字</p>
+                  <p className="text-sm text-zinc-500 mb-2">{t('jewelry.bazi.yourBazi')}</p>
                   <p className="text-lg font-serif tracking-wider">
                     {baziResult.yearStem}{baziResult.yearBranch} {baziResult.monthStem}{baziResult.monthBranch} {baziResult.dayStem}{baziResult.dayBranch} {baziResult.hourStem}{baziResult.hourBranch}
                   </p>
                   <p className="text-sm text-zinc-500 mt-2">
-                    日主：{baziResult.dayMaster}（{wuxingNames[stemToWuxing(baziResult.dayMaster)].cn}）
+                    {t('jewelry.bazi.dayMaster')}：{baziResult.dayMaster}（{wuxingNames[stemToWuxing(baziResult.dayMaster)].cn}）
                   </p>
                 </div>
 
@@ -93,32 +100,32 @@ export default function JewelryPage() {
                 {/* 喜忌 */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                    <p className="text-sm text-green-700 dark:text-green-400 font-medium">喜用神</p>
+                    <p className="text-sm text-green-700 dark:text-green-400 font-medium">{t('jewelry.bazi.favorable')}</p>
                     <p className="text-lg">
                       {baziResult.favorable.map(w => wuxingNames[w].cn).join('、')}
                     </p>
                   </div>
                   <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                    <p className="text-sm text-red-700 dark:text-red-400 font-medium">忌神</p>
+                    <p className="text-sm text-red-700 dark:text-red-400 font-medium">{t('jewelry.bazi.unfavorable')}</p>
                     <p className="text-lg">
-                      {baziResult.unfavorable.map(w => wuxingNames[w].cn).join('、') || '无'}
+                      {baziResult.unfavorable.map(w => wuxingNames[w].cn).join('、') || t('common.notFound')}
                     </p>
                   </div>
                 </div>
 
                 {/* 推荐 */}
                 <div className="space-y-4">
-                  <h3 className="font-medium">推荐珠宝</h3>
+                  <h3 className="font-medium">{t('jewelry.bazi.recommendations')}</h3>
                   {getRecommendations(baziResult).slice(0, 2).map((rec, i) => (
                     <div key={i} className="p-3 bg-zinc-50 dark:bg-zinc-800 rounded-lg">
                       <p className="text-sm text-zinc-500">
-                        {rec.type === 'supplement' ? '💎 补足' : rec.type === 'enhance' ? '✨ 增强' : '⚠️ 避免'}
+                        {rec.type === 'supplement' ? t('jewelry.bazi.supplement') : rec.type === 'enhance' ? t('jewelry.bazi.enhance') : t('jewelry.bazi.avoid')}
                         {wuxingNames[rec.wuxing].cn}
                       </p>
                       <div className="flex gap-2 mt-2 overflow-x-auto pb-2">
                         {rec.jewelry.slice(0, 3).map(j => (
                           <span key={j.id} className="text-xs whitespace-nowrap px-2 py-1 bg-white dark:bg-zinc-700 rounded">
-                            {j.nameCn}
+                            {locale === 'zh' ? j.nameCn : j.name}
                           </span>
                         ))}
                       </div>
@@ -128,9 +135,9 @@ export default function JewelryPage() {
 
                 <button
                   onClick={() => setBaziResult(null)}
-                  className="w-full py-2 text-zinc-500 hover:text-zinc-700"
+                  className="w-full py-2 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
                 >
-                  重新计算
+                  {t('jewelry.bazi.recalculate')}
                 </button>
               </div>
             )}
@@ -141,7 +148,7 @@ export default function JewelryPage() {
       {/* Five Elements Overview */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-serif text-center mb-12">五行与珠宝</h2>
+          <h2 className="text-2xl font-serif text-center mb-12">{t('jewelry.fiveElements')}</h2>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
             {wuxingOrder.map(wuxing => (
               <Link
@@ -157,7 +164,7 @@ export default function JewelryPage() {
                 </div>
                 <h3 className="font-medium mb-1">{wuxingNames[wuxing].en}</h3>
                 <p className="text-sm text-zinc-500">
-                  {getJewelryByWuxing(wuxing).length} 件珠宝
+                  {getJewelryCount(wuxing)} {locale === 'zh' ? '件珠宝' : 'items'}
                 </p>
               </Link>
             ))}
@@ -168,7 +175,7 @@ export default function JewelryPage() {
       {/* Featured Collections */}
       <section id="collection" className="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-zinc-900">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-serif mb-8">精选图鉴</h2>
+          <h2 className="text-2xl font-serif mb-8">{t('jewelry.featured')}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {jewelryDatabase.slice(0, 8).map(jewelry => (
               <JewelryCard key={jewelry.id} jewelry={jewelry} />
@@ -179,7 +186,7 @@ export default function JewelryPage() {
               href="/jewelry/collection"
               className="inline-block px-8 py-3 border border-zinc-300 dark:border-zinc-700 rounded-full hover:border-zinc-900 dark:hover:border-zinc-100 transition-colors"
             >
-              查看全部 {jewelryDatabase.length} 件珠宝
+              {t('jewelry.viewAll')} {jewelryDatabase.length} {locale === 'zh' ? '件珠宝' : 'items'}
             </Link>
           </div>
         </div>
@@ -188,7 +195,7 @@ export default function JewelryPage() {
       {/* Articles */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-serif mb-8">五行珠宝指南</h2>
+          <h2 className="text-2xl font-serif mb-8">{t('jewelry.articles')}</h2>
           <div className="space-y-6">
             {jewelryArticles.map(article => (
               <Link
@@ -207,7 +214,7 @@ export default function JewelryPage() {
                     </p>
                   </div>
                   <span className="text-sm text-zinc-400 whitespace-nowrap ml-4">
-                    {article.readTime} min
+                    {article.readTime} {t('common.readTime')}
                   </span>
                 </div>
               </Link>

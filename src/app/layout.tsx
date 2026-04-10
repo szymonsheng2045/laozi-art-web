@@ -3,6 +3,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/auth/auth-provider";
 import { PWARegister, IOSInstallHint } from "@/components/pwa-register";
 import { StructuredData } from "@/components/structured-data";
+import { LanguageProvider } from "@/components/language-provider";
 
 export const metadata: Metadata = {
   title: "LAOZI ART | 道家美学时尚观察",
@@ -99,12 +100,14 @@ export default function RootLayout({
         <meta name="msapplication-tap-highlight" content="no" />
       </head>
       <body className="antialiased transition-colors duration-500">
-        <AuthProvider>
-          {children}
-          <StructuredData />
-          <PWARegister />
-          <IOSInstallHint />
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            {children}
+            <StructuredData />
+            <PWARegister />
+            <IOSInstallHint />
+          </AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
