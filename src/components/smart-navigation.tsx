@@ -3,18 +3,22 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { LoginButton } from "./auth/login-button";
-
-const navItems = [
-  { label: "Observation", href: "/observation" },
-  { label: "Insight", href: "/insight" },
-  { label: "Essence", href: "/essence" },
-  { label: "Void", href: "/void" },
-];
+import { LanguageSwitcher } from "./language-switcher";
+import { useLanguage } from "./language-provider";
 
 export function SmartNavigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const { t } = useLanguage();
+
+  const navItems = [
+    { label: t('nav.observation'), href: "/observation" },
+    { label: t('nav.insight'), href: "/insight" },
+    { label: t('nav.essence'), href: "/essence" },
+    { label: t('nav.void'), href: "/void" },
+    { label: t('nav.jewelry'), href: "/jewelry" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,7 +72,8 @@ export function SmartNavigation() {
               {item.label}
             </Link>
           ))}
-          <div className="pl-4 border-l border-[var(--color-border)]">
+          <div className="pl-4 border-l border-[var(--color-border)] flex items-center gap-4">
+            <LanguageSwitcher />
             <LoginButton />
           </div>
         </div>
@@ -109,11 +114,12 @@ export function SmartNavigation() {
               </Link>
             ))}
             <div 
-              className={`pt-4 border-t border-[var(--color-border)] transition-all duration-300 ${
+              className={`pt-4 border-t border-[var(--color-border)] flex flex-col items-center gap-4 transition-all duration-300 ${
                 isOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
               }`}
               style={{ transitionDelay: isOpen ? "200ms" : "0ms" }}
             >
+              <LanguageSwitcher />
               <LoginButton />
             </div>
           </div>
