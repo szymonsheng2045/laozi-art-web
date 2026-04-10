@@ -1,2 +1,2 @@
-:HL["/_next/static/chunks/0-f4fumw51mqk.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"jewelry","param":null,"prefetchHints":0,"slots":{"children":{"name":"item","param":null,"prefetchHints":0,"slots":{"children":{"name":"id","param":{"type":"d","key":"j015","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}}}},"staleTime":300,"buildId":"4pMsfNXifuYP0Ex0UfgHH"}
+:HL["/_next/static/chunks/049bd1.in3j~l.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"jewelry","param":null,"prefetchHints":0,"slots":{"children":{"name":"item","param":null,"prefetchHints":0,"slots":{"children":{"name":"id","param":{"type":"d","key":"j015","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}}}},"staleTime":300,"buildId":"7lwcuFwlu8swUFvMpjW17"}
