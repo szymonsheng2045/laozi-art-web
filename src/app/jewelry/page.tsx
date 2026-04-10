@@ -12,6 +12,7 @@ import {
 import { JewelryCardLuxury } from '@/components/daoist-effects/jewelry-card-luxury';
 import { CloudFloating } from '@/components/daoist-effects/cloud-floating';
 import { WuxingChart } from '@/components/jewelry/wuxing-chart';
+import { QiFlowVisualizer } from '@/components/ai-daoist';
 import { BaziForm } from '@/components/jewelry/bazi-form';
 import { BreathReveal } from '@/components/daoist-effects/breath-reveal';
 import { useLanguage } from '@/components/language-provider';
@@ -116,6 +117,9 @@ export default function JewelryPage() {
               <BaziForm onSubmit={handleBaziSubmit} />
             ) : (
               <div className="space-y-6">
+                {/* AI气数流动可视化 */}
+                <QiFlowVisualizer wuxingDistribution={baziResult.wuxing} isActive={true} />
+                
                 <div className="text-center p-6 bg-white dark:bg-zinc-800 rounded-lg border border-[#e8e0d5] dark:border-zinc-700">
                   <p className="text-sm text-[#8b7355] mb-2">{t('jewelry.bazi.yourBazi')}</p>
                   <p className="text-2xl font-serif tracking-wider text-[#1a1a1a] dark:text-white">

@@ -5,17 +5,20 @@ import { SmartNavigation } from "@/components/smart-navigation";
 import LuxuryHero from "@/components/luxury-hero";
 import Observation from "@/components/Observation";
 import Footer from "@/components/Footer";
-import { XuanxueSidebar } from "@/components/xuanxui/xuanxue-sidebar";
 import { TextShare } from "@/components/text-share";
 import { Search } from "@/components/search";
 import { InkWashBackground } from "@/components/daoist-effects/ink-wash-background";
+import { GenerativeInk, NeuralTalisman, SmartDivination } from "@/components/ai-daoist";
 
 export default function Home() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
-    <main className="min-h-screen overflow-x-hidden">
-      {/* 水墨背景 */}
+    <main className="min-h-screen overflow-x-hidden relative">
+      {/* AI生成式水墨背景 - 道生万物 */}
+      <GenerativeInk />
+      
+      {/* 传统水墨背景 */}
       <InkWashBackground />
       
       {/* 搜索组件 */}
@@ -23,6 +26,12 @@ export default function Home() {
       
       {/* 文字分享 */}
       <TextShare />
+      
+      {/* AI智能卦象 - 每日运势 */}
+      <SmartDivination />
+      
+      {/* 神经网络符咒 - AI思考可视化 */}
+      <NeuralTalisman />
       
       {/* 导航 */}
       <SmartNavigation />
