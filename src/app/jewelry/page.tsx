@@ -9,7 +9,8 @@ import {
   jewelryArticles,
   wuxingNames
 } from '@/lib/jewelry';
-import { JewelrySpotlight } from '@/components/daoist-effects/jewelry-spotlight';
+import { JewelryCardLuxury } from '@/components/daoist-effects/jewelry-card-luxury';
+import { CloudFloating } from '@/components/daoist-effects/cloud-floating';
 import { WuxingChart } from '@/components/jewelry/wuxing-chart';
 import { BaziForm } from '@/components/jewelry/bazi-form';
 import { BreathReveal } from '@/components/daoist-effects/breath-reveal';
@@ -33,7 +34,10 @@ export default function JewelryPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#faf8f5] dark:bg-zinc-950">
+    <main className="min-h-screen bg-[#faf8f5] dark:bg-zinc-950 relative">
+      {/* 浮动云背景 */}
+      <CloudFloating />
+      
       {/* Hero Section - 奢华珠宝氛围 */}
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         {/* 背景纹理 */}
@@ -231,10 +235,14 @@ export default function JewelryPage() {
             </div>
           </BreathReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {jewelryDatabase.slice(0, 8).map((jewelry, index) => (
               <BreathReveal key={jewelry.id} delay={index * 100}>
-                <JewelrySpotlight jewelry={jewelry} index={index} />
+                <JewelryCardLuxury 
+                  jewelry={jewelry} 
+                  index={index}
+                  featured={index === 0}
+                />
               </BreathReveal>
             ))}
           </div>

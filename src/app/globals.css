@@ -84,6 +84,44 @@ body {
   /* 防止文字溢出 */
   word-wrap: break-word;
   overflow-wrap: break-word;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 全局文字溢出保护 */
+* {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 标题溢出保护 */
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* 中文标题不断词 */
+:lang(zh) h1, :lang(zh) h2, :lang(zh) h3 {
+  word-break: keep-all;
+}
+
+/* 段落文字优化 */
+p {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* 链接文字优化 */
+a {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 防止flex/grid元素溢出 */
+.flex, .grid {
+  min-width: 0;
 }
 
 /* 标题使用衬线字体 */
