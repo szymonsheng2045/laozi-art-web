@@ -2,39 +2,36 @@
 
 import { useState } from "react";
 import { SmartNavigation } from "@/components/smart-navigation";
-import Hero from "@/components/Hero";
+import LuxuryHero from "@/components/luxury-hero";
 import Observation from "@/components/Observation";
 import Footer from "@/components/Footer";
 import { XuanxueSidebar } from "@/components/xuanxui/xuanxue-sidebar";
 import { TextShare } from "@/components/text-share";
 import { Search } from "@/components/search";
+import { InkWashBackground } from "@/components/daoist-effects/ink-wash-background";
 
 export default function Home() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <main className="min-h-screen overflow-x-hidden">
+      {/* 水墨背景 */}
+      <InkWashBackground />
+      
       {/* 搜索组件 */}
       <Search isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
       
       {/* 文字分享 */}
       <TextShare />
       
-      <div className="flex flex-col lg:flex-row">
-        {/* 主内容区 */}
-        <div className="flex-1 min-w-0">
-          <SmartNavigation />
-          <Hero />
-          <div className="divider" />
-          <Observation />
-          <Footer />
-        </div>
-        
-        {/* 侧边栏 */}
-        <div className="hidden lg:block flex-shrink-0">
-          <XuanxueSidebar />
-        </div>
-      </div>
+      {/* 导航 */}
+      <SmartNavigation />
+      
+      {/* 主内容 */}
+      <LuxuryHero />
+      <div className="divider" />
+      <Observation />
+      <Footer />
       
       {/* 搜索按钮 */}
       <button
